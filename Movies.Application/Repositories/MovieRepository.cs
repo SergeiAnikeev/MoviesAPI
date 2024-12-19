@@ -7,11 +7,15 @@ using System.Threading.Tasks;
 
 namespace Movies.Application.Repositories
 {
+
     internal class MovieRepository : IMovieRepository
     {
+        private readonly List<Movie> _movies = new();
+
         Task<bool> IMovieRepository.CreateAsync(Movie movie)
         {
-            throw new NotImplementedException();
+            _movies.Add(movie);
+            return Task.FromResult(true);
         }
 
         Task<bool> IMovieRepository.DeleteByIdAsync(Guid id)
@@ -26,7 +30,8 @@ namespace Movies.Application.Repositories
 
         Task<Movie?> IMovieRepository.GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var movie = _movies.FirstOrDefault(x => x.id == id);
+            return Task.FromResult(movie);
         }
 
         Task<bool> IMovieRepository.UpdateAsync(Movie movie)
