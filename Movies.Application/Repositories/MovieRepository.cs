@@ -8,35 +8,43 @@ using System.Threading.Tasks;
 namespace Movies.Application.Repositories
 {
 
-    internal class MovieRepository : IMovieRepository
+    public class MovieRepository : IMovieRepository
     {
         private readonly List<Movie> _movies = new();
 
-        Task<bool> IMovieRepository.CreateAsync(Movie movie)
+        public Task<bool> CreateAsync(Movie movie)
         {
             _movies.Add(movie);
             return Task.FromResult(true);
         }
 
-        Task<bool> IMovieRepository.DeleteByIdAsync(Guid id)
+        public Task<IEnumerable<Movie>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return Task.FromResult(_movies.AsEnumerable());
         }
 
-        Task<IEnumerable<Movie>> IMovieRepository.GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<Movie?> IMovieRepository.GetByIdAsync(Guid id)
+        public Task<Movie?> GetByIdAsync(Guid id)
         {
             var movie = _movies.FirstOrDefault(x => x.id == id);
             return Task.FromResult(movie);
         }
 
-        Task<bool> IMovieRepository.UpdateAsync(Movie movie)
+        public Task<bool> UpdateAsync(Movie movie)
         {
-            throw new NotImplementedException();
+            var movieIndex = _movies.FindIndex(x => x.id == movie.id);
+            if (movieIndex == -1)
+            {
+                return Task.FromResult(false);
+            }
+            _movies[movieIndex] = movie;
+            return Task.FromResult(true);
+        }
+
+        public Task<bool> DeleteByIdAsync(Guid id)
+        {
+            var removeCount = _movies.RemoveAll(x => x.id == id);
+            var movieRemoved = removeCount > 0;
+            return Task.FromResult(movieRemoved);
         }
     }
 }
