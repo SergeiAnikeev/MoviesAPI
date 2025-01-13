@@ -1,0 +1,18 @@
+[
+  {
+    "ContainingType": "Movies.API.Controllers.MoviesController",
+    "Method": "Create",
+    "RelativePath": "api/movies",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "Movies.Contracts.Requests.CreateMovieRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]
