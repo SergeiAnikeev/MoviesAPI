@@ -3,6 +3,7 @@ using Movies.API.Mapping;
 using Movies.Application.Models;
 using Movies.Application.Repositories;
 using Movies.Contracts.Requests;
+using static Movies.API.ApiEndpoints;
 
 namespace Movies.API.Controllers
 {
@@ -20,8 +21,56 @@ namespace Movies.API.Controllers
         {
             var movie = request.MapToMovie();
             var result = await _movieRepository.CreateAsync(movie);
+            return CreatedAtAction(nameof(Get), new { id = movie.Id}, movie);
+            // return Created($"/{ApiEndpoints.Movies.Create}/{movie.Id}",movie); // should be updated to a new movie response
+        }
 
-            return Created($"/{ApiEndpoints.Movies.Create}/{movie.Id}",movie); // should be updated to a new movie response
+        [HttpGet(ApiEndpoints.Movies.Get)]
+        public async Task<IActionResult> Get([FromRoute] Guid id)
+        {
+            var movie = await _movieRepository.GetByIdAsync(id);
+            if (movie is null) 
+            {
+                return NotFound();
+            }
+
+            return Ok(movie.MapToResponse());
+        }
+
+        [HttpGet(ApiEndpoints.Movies.GetAll)]
+        public async Task<IActionResult> GetAll()
+        {
+            var movies = await _movieRepository.GetAllAsync();
+            if (movies is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(movies.MapToResponse());
+        }
+
+        [HttpPut(ApiEndpoints.Movies.Update)]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody]UpdateMovieRequest request)
+        {
+            var movie = request.MapToMovie(id);
+            var updated = await _movieRepository.UpdateAsync(movie);
+            if (!updated)
+            {
+                return NotFound();
+            }
+            var response = movie.MapToResponse();
+            return Ok(response);
+        }
+
+        [HttpDelete(ApiEndpoints.Movies.Delete)]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            var deleted = await _movieRepository.DeleteByIdAsync(id);
+            if (!deleted)
+            {
+                return NotFound();
+            }
+            return Ok();
         }
     }
 }

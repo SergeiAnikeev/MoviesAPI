@@ -12,5 +12,6 @@ namespace Movies.Application.Models
         public required string Title { get; set; }
         public required string YearOfRelease { get; set; }
         public required List<string> Genres { get; init; } = new();
+
     }
 }

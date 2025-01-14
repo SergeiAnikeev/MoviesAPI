@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "zUH3b8CEhYw=",
+  "dgSpecHash": "NwrskFizKnbev75AeN4jxhSg78VxmC75rAycfi5xLOgiW6Jm/I8dMl71kS1Gb2U8iipDbAcbvYFjvypPJ/I6Dg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\source\\repos\\Movies\\Movies.Application\\Movies.Application.csproj",
+  "projectFilePath": "C:\\Users\\anike\\Source\\Repos\\MoviesAPI\\Movies.Application\\Movies.Application.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Admin\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.0\\microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512"
+    "C:\\Users\\anike\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.0\\microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512"
   ],
   "logs": []
 }

@@ -76,18 +76,12 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.0"
         },
         "runtime": {
-          "Movies.Application.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Movies.Application.dll": {}
         }
       },
       "Movies.Contracts/1.0.0": {
         "runtime": {
-          "Movies.Contracts.dll": {
-            "assemblyVersion": "1.0.0",
-            "fileVersion": "1.0.0.0"
-          }
+          "Movies.Contracts.dll": {}
         }
       }
     }
