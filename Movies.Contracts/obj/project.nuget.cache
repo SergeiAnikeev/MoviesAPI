@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rBXKq8jDGsb3SPkSSkNAlfErAvVQBjW72Qf+qZD7a3EwL0FCAikEvDu4cQcPnlObce8zptOhn7MTNyPXAoHtLA==",
+  "dgSpecHash": "7MmCssQa/gBJ3veLaNwAhJOJw5bzKHDC0/eLgvBF7p3ezLug96hpqFAH2L6T5TmgEGhEu5GWe3TWXvjvBvhVpQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\anike\\Source\\Repos\\MoviesAPI\\Movies.Contracts\\Movies.Contracts.csproj",
+  "projectFilePath": "C:\\Users\\anike\\source\\repos\\MoviesAPI\\Movies.Contracts\\Movies.Contracts.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
