@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+﻿using System.Text.RegularExpressions;
+
 
 namespace Movies.Application.Models
 {
@@ -13,7 +9,7 @@ namespace Movies.Application.Models
         public required string Title { get; set; }
         public string Slug => GenerateSlug();
 
-        public required string YearOfRelease { get; set; }
+        public required int YearOfRelease { get; set; }
         public required List<string> Genres { get; init; } = new();
         private string GenerateSlug()
         {

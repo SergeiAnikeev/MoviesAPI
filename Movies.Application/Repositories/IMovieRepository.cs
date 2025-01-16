@@ -1,9 +1,4 @@
 ﻿using Movies.Application.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Movies.Application.Repositories
 {
@@ -15,6 +10,8 @@ namespace Movies.Application.Repositories
         Task<IEnumerable<Movie>> GetAllAsync();
         Task<bool> UpdateAsync(Movie movie);
         Task<bool> DeleteByIdAsync(Guid id);
+        Task<bool> ExistsByIdAsync(Guid id);
+
 
     }
 }
