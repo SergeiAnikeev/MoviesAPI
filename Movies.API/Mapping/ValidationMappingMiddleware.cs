@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using FluentValidation;
+using Movies.Contracts.Responses;
 
 namespace Movies.API.Mapping
 {
@@ -10,7 +11,7 @@ namespace Movies.API.Mapping
             _next = next;
         }
 
-        public async Task HandleAsync(HttpContext context)
+        public async Task InvokeAsync(HttpContext context)
         {
             try 
             {
@@ -18,7 +19,17 @@ namespace Movies.API.Mapping
             }
             catch (ValidationException ex) 
             {
+                context.Response.StatusCode = 400;
+                var validationFailureResponse = new ValidationFailureResponse
+                {
+                    Errors = ex.Errors.Select(x => new ValidationResponse 
+                    {
+                        PropertyName = x.PropertyName,
+                        Message = x.ErrorMessage
+                    })
+                };
 
+                await context.Response.WriteAsJsonAsync(validationFailureResponse);
             }
         }
     }

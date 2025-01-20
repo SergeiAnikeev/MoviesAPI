@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Movies.API.Mapping;
-using Movies.Application.Models;
-using Movies.Application.Repositories;
 using Movies.Application.Services;
 using Movies.Contracts.Requests;
-using static Movies.API.ApiEndpoints;
 
 namespace Movies.API.Controllers
 {
@@ -13,10 +10,11 @@ namespace Movies.API.Controllers
     {
         private readonly IMovieService _movieService;
 
-        public MoviesController(IMovieRepository movieRepository)
+        public MoviesController(IMovieService movieService)
         {
-            _movieService = movieRepository;
+            _movieService = movieService;
         }
+
         [HttpPost(ApiEndpoints.Movies.Create)]
         public async Task<IActionResult> Create([FromBody]CreateMovieRequest request)
         {
