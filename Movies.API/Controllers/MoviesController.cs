@@ -16,7 +16,7 @@ namespace Movies.API.Controllers
         }
 
         [HttpPost(ApiEndpoints.Movies.Create)]
-        public async Task<IActionResult> Create([FromBody]CreateMovieRequest request)
+        public async Task<IActionResult> Create([FromBody]CreateMovieRequest request, CancellationToken token)
         {
             var movie = request.MapToMovie();
             var result = await _movieService.CreateAsync(movie);
