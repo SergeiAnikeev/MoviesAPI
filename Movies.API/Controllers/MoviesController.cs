@@ -17,7 +17,7 @@ namespace Movies.API.Controllers
             _movieService = movieService;
         }
 
-        [Authorize(AuthConstants.AdminUserPolicyName)]
+        [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpPost(ApiEndpoints.Movies.Create)]
         public async Task<IActionResult> Create([FromBody]CreateMovieRequest request, CancellationToken token)
         {
@@ -27,7 +27,7 @@ namespace Movies.API.Controllers
             // return Created($"/{ApiEndpoints.Movies.Create}/{movie.Id}",movie); // should be updated to a new movie response
         }
 
-        [Authorize]
+        [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpGet(ApiEndpoints.Movies.Get)]
         public async Task<IActionResult> Get([FromRoute] string idOrSlug, CancellationToken token)
         {
@@ -42,7 +42,7 @@ namespace Movies.API.Controllers
             return Ok(movie.MapToResponse());
         }
 
-        [Authorize]
+        [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpGet(ApiEndpoints.Movies.GetAll)]
         public async Task<IActionResult> GetAll(CancellationToken token)
         {
@@ -55,7 +55,7 @@ namespace Movies.API.Controllers
             return Ok(movies.MapToResponse());
         }
 
-        [Authorize("Admin")]
+        [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpPut(ApiEndpoints.Movies.Update)]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody]UpdateMovieRequest request, CancellationToken token)
         {
