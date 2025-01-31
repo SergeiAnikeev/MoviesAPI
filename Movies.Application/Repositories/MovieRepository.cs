@@ -36,12 +36,17 @@ namespace Movies.Application.Repositories
             transaction.Commit();
             return result > 0;
         }
-        public async Task<Movie?> GetByIdAsync(Guid id, CancellationToken token = default)
+        public async Task<Movie?> GetByIdAsync(Guid id, Guid? userid = default, CancellationToken token = default)
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync(token);
             var movie = await connection.QuerySingleOrDefaultAsync<Movie>(new CommandDefinition("""
-                select * from movies where id = @id
-                """, new { id }, cancellationToken: token));
+                select m.*, round(avg(r.rating), 1) as rating, myr.rating as userrating
+                from movies m
+                left join ratings r on m.id=r.movieid
+                left join ratings myr on m.id=myr.movieid and myr.userid = @userid
+                where id = @id
+                group by id, userrating
+                """, new { id, userid }, cancellationToken: token));
             if (movie is null)
             {
                 return null;
@@ -56,7 +61,7 @@ namespace Movies.Application.Repositories
             return movie;
 
         }
-        public async Task<Movie?> GetBySlugAsync(string slug, CancellationToken token = default)
+        public async Task<Movie?> GetBySlugAsync(string slug, Guid? userid = default, CancellationToken token = default)
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync(token);
             var movie = await connection.QuerySingleOrDefaultAsync<Movie>(new CommandDefinition("""
@@ -75,7 +80,7 @@ namespace Movies.Application.Repositories
             }
             return movie;
         }
-        public async Task<IEnumerable<Movie>> GetAllAsync(CancellationToken token = default)
+        public async Task<IEnumerable<Movie>> GetAllAsync(Guid? userid = default, CancellationToken token = default)
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync(token);
             var result = await connection.QueryAsync(new CommandDefinition("""
@@ -93,7 +98,7 @@ namespace Movies.Application.Repositories
             });
         }
         
-        public async Task<bool> UpdateAsync(Movie movie, CancellationToken token = default)
+        public async Task<bool> UpdateAsync(Movie movie, Guid? userid = default, CancellationToken token = default)
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync(token);
             using var transaction = connection.BeginTransaction();

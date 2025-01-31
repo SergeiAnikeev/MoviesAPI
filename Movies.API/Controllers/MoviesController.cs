@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Movies.API.Auth;
 using Movies.API.Mapping;
 using Movies.Application.Services;
 using Movies.Contracts.Requests;
 
 namespace Movies.API.Controllers
 {
-    
+
     [ApiController]
     public class MoviesController : ControllerBase
     {
@@ -31,9 +32,10 @@ namespace Movies.API.Controllers
         [HttpGet(ApiEndpoints.Movies.Get)]
         public async Task<IActionResult> Get([FromRoute] string idOrSlug, CancellationToken token)
         {
+            var userId = HttpContext.GetUserId();
             var movie = Guid.TryParse(idOrSlug, out var id)
-                ? await _movieService.GetByIdAsync(id, token) 
-                : await _movieService.GetBySlugAsync(idOrSlug, token);
+                ? await _movieService.GetByIdAsync(id, userId, token) 
+                : await _movieService.GetBySlugAsync(idOrSlug, userId, token);
             if (movie is null) 
             {
                 return NotFound();
@@ -46,7 +48,8 @@ namespace Movies.API.Controllers
         [HttpGet(ApiEndpoints.Movies.GetAll)]
         public async Task<IActionResult> GetAll(CancellationToken token)
         {
-            var movies = await _movieService.GetAllAsync(token);
+            var userId = HttpContext.GetUserId();
+            var movies = await _movieService.GetAllAsync(userId, token);
             if (movies is null)
             {
                 return NotFound();
@@ -59,8 +62,9 @@ namespace Movies.API.Controllers
         [HttpPut(ApiEndpoints.Movies.Update)]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody]UpdateMovieRequest request, CancellationToken token)
         {
+            var userId = HttpContext.GetUserId();
             var movie = request.MapToMovie(id);
-            var updatedMovie = await _movieService.UpdateAsync(movie, token);
+            var updatedMovie = await _movieService.UpdateAsync(movie, userId, token);
             if (updatedMovie is null)
             {
                 return NotFound();
