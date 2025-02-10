@@ -65,7 +65,12 @@ namespace Movies.Application.Repositories
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync(token);
             var movie = await connection.QuerySingleOrDefaultAsync<Movie>(new CommandDefinition("""
-                select * from movies where slug = @slug
+                select m.*, round(avg(r.rating), 1) as rating, myr.rating as userrating
+                from movies m
+                left join ratings r on m.id=r.movieid
+                left join ratings myr on m.id=myr.movieid and myr.userid = @userid
+                where slug = @slug
+                group by id, userrating
                 """, new { slug }, cancellationToken: token));
             if (movie is null)
             {
@@ -84,15 +89,20 @@ namespace Movies.Application.Repositories
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync(token);
             var result = await connection.QueryAsync(new CommandDefinition("""
-                select m.*, string_agg(g.name, ',') as genres
+                select m.*, string_agg(distinct g.name, ',') as genres,
+                round(avg(r.rating), 1) as rating, myr.rating as userrating
                 from movies m
                 left join genres g on m.id=g.movieid
+                left join ratings r on m.id=r.movieid
+                left join ratings myr on m.id=myr.movieid and myr.userid = @userid
                 group by id
                 """));
 
             return result.Select(x => new Movie{
                 Id = x.id,
                 Title = x.title,
+                Rating = (float?)x.rating,
+                UserRating = (int?)x.userrating,
                 YearOfRelease = x.yearofrelease,
                 Genres = Enumerable.ToList(x.genres.Split(','))
             });

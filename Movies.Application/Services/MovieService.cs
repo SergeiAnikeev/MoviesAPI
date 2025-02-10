@@ -37,7 +37,7 @@ namespace Movies.Application.Services
         public async Task<Movie?> UpdateAsync(Movie movie, Guid? userid = default, CancellationToken token = default)
         {
             await _movieValidator.ValidateAndThrowAsync(movie, cancellationToken: token);
-            var movieExists = await _movieRepository.ExistsByIdAsync(movie.Id, userid, token);
+            var movieExists = await _movieRepository.ExistsByIdAsync(movie.Id, token);
             if (!movieExists)
             {
                 return null;
