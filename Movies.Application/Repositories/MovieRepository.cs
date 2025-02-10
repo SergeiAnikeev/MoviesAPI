@@ -96,7 +96,7 @@ namespace Movies.Application.Repositories
                 left join ratings r on m.id=r.movieid
                 left join ratings myr on m.id=myr.movieid and myr.userid = @userid
                 group by id
-                """));
+                """,new { userid}, cancellationToken: token));
 
             return result.Select(x => new Movie{
                 Id = x.id,
@@ -108,7 +108,7 @@ namespace Movies.Application.Repositories
             });
         }
         
-        public async Task<bool> UpdateAsync(Movie movie, Guid? userid = default, CancellationToken token = default)
+        public async Task<bool> UpdateAsync(Movie movie, CancellationToken token = default)
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync(token);
             using var transaction = connection.BeginTransaction();
