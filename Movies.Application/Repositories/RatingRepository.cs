@@ -26,10 +26,11 @@ namespace Movies.Application.Repositories
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync(token);
             var result = await connection.ExecuteAsync(new CommandDefinition("""
-                insert into ratings(userid, movieid, rating)
-                values(@userid, @movieid, @rating)
-                on conflict(@userid, @movieid) do update
-                """, new { userId, movieId,rating }, cancellationToken: token
+                INSERT INTO ratings (userid, movieid, rating)
+                VALUES (@userId, @movieId, @rating)
+                ON CONFLICT (userid, movieid) 
+                DO UPDATE SET rating = EXCLUDED.rating;
+                """, new { userId, movieId, rating }, cancellationToken: token
             ));
             return result > 0;
         }
