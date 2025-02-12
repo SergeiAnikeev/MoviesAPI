@@ -38,9 +38,8 @@ namespace Movies.Application.Database
                 create table if not exists ratings(
                 userid uuid,
                 movieid UUID references movies (id),
-                taing integer not null,
-                primary key (userid,movieid);
-
+                rating integer not null,
+                primary key(userid,movieid));
                 """);
 
 

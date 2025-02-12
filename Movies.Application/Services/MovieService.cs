@@ -54,9 +54,9 @@ namespace Movies.Application.Services
 
             }
 
-            var ratings = await _ratingRepository.GetRatingAsync(movie.Id, userid, token);
-            movie.Rating = ratings.rating;
-            movie.UserRating = ratings.userRating;
+            var ratings = await _ratingRepository.GetRatingAsync(movie.Id, userid.Value, token);
+            movie.Rating = ratings.Rating;
+            movie.UserRating = ratings.UserRating;
 
             return movie;
         }
