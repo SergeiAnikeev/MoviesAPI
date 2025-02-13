@@ -46,10 +46,12 @@ namespace Movies.API.Controllers
 
         [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpGet(ApiEndpoints.Movies.GetAll)]
-        public async Task<IActionResult> GetAll(CancellationToken token)
+        public async Task<IActionResult> GetAll([FromQuery] GetAllMoviesRequest request, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
-            var movies = await _movieService.GetAllAsync(userId, token);
+            var options = request.MapToOptions().WithUser(userId);
+
+            var movies = await _movieService.GetAllAsync(options, token);
             if (movies is null)
             {
                 return NotFound();

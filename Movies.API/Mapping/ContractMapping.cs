@@ -59,8 +59,19 @@ namespace Movies.API.Mapping
                 Slug = x.Slug,
                 MovieId = x.MovieId
             });
-            
-
+        }
+        public static GetAllmoviesOptions MapToOptions(this GetAllMoviesRequest request)
+        {
+            return new GetAllmoviesOptions
+            {
+                Title = request.Title,
+                YearOfRelease = request.Year
+            };
+        }
+        public static GetAllmoviesOptions WithUser(this GetAllmoviesOptions options,Guid? userId)
+        {
+            options.userId = userId;
+            return options;
         }
     }
 }
