@@ -18,7 +18,7 @@ namespace Movies.Application.Repositories
             return await connection.QuerySingleOrDefaultAsync<float?>(new CommandDefinition("""
                 SELECT round(AVG(r.rating),1)
                 FROM ratings r
-                WHERE movieid = @MovieId
+                WHERE movieid = @movieId
                 """, new { movieId },cancellationToken: token
             ));
         }
@@ -41,11 +41,22 @@ namespace Movies.Application.Repositories
                 SELECT round(AVG(r.rating),1),
                 (select rating 
                 from ratings 
-                where movieid = @MovieId and userid = @UserId limit 1)
+                where movieid = @movieId and userid = @userId limit 1)
                 FROM ratings r
-                WHERE movieid = @MovieId
+                WHERE movieid = @movieId
                 """, new { movieId,userId }, cancellationToken: token
             ));
+        }
+        public async Task<bool> DeleteRatingAsync(Guid movieId, Guid userId, CancellationToken token = default)
+        {
+            using var connection = await _dbConnectionFactory.CreateConnectionAsync(token);
+            var result = await connection.ExecuteAsync(new CommandDefinition("""
+                delete from ratings
+                where movieid=@movieId
+                and userid=@userId
+                """, new { userId, movieId }, cancellationToken: token
+            ));
+            return result > 0;
         }
     }
 }
