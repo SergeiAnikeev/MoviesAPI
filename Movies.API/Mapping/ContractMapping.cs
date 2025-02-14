@@ -65,7 +65,10 @@ namespace Movies.API.Mapping
             return new GetAllmoviesOptions
             {
                 Title = request.Title,
-                YearOfRelease = request.Year
+                YearOfRelease = request.Year,
+                SortField = request.SortBy?.Trim('+','-'),
+                SortOrder = request.SortBy is null ? SortOrder.Unsorted : 
+                request.SortBy.StartsWith('-') ? SortOrder.Descending : SortOrder.Ascending
             };
         }
         public static GetAllmoviesOptions WithUser(this GetAllmoviesOptions options,Guid? userId)
