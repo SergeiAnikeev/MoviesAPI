@@ -50,14 +50,14 @@ namespace Movies.API.Controllers
         {
             var userId = HttpContext.GetUserId();
             var options = request.MapToOptions().WithUser(userId);
-
             var movies = await _movieService.GetAllAsync(options, token);
+            var movieCount = await _movieService.GetCountAsync(options.Title,options.YearOfRelease,token);
             if (movies is null)
             {
                 return NotFound();
             }
 
-            return Ok(movies.MapToResponse());
+            return Ok(movies.MapToResponse(request.Page,request.PageSize, movieCount));
         }
 
         [Authorize(AuthConstants.TrustedMemberPolicyName)]
