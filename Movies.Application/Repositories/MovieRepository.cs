@@ -71,7 +71,7 @@ namespace Movies.Application.Repositories
                 left join ratings myr on m.id=myr.movieid and myr.userid = @userid
                 where slug = @slug
                 group by id, userrating
-                """, new { slug }, cancellationToken: token));
+                """, new { slug, userid }, cancellationToken: token));
             if (movie is null)
             {
                 return null;

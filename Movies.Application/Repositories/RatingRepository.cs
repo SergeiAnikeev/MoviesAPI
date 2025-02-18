@@ -66,7 +66,7 @@ namespace Movies.Application.Repositories
                 select r.rating, r.movieid, m.slug
                 from ratings r
                 inner join movies m on r.movieid = m.id
-                where userid = @userId
+                where r.userid = @userId
                 """, new { userId }, cancellationToken: token
             ));
             

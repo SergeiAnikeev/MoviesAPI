@@ -4,6 +4,8 @@ using Movies.API.Auth;
 using Movies.API.Mapping;
 using Movies.Application.Services;
 using Movies.Contracts.Requests;
+using Movies.Contracts.Responses;
+
 
 namespace Movies.API.Controllers
 {
@@ -30,7 +32,7 @@ namespace Movies.API.Controllers
 
         [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpGet(ApiEndpoints.Movies.Get)]
-        public async Task<IActionResult> Get([FromRoute] string idOrSlug, CancellationToken token)
+        public async Task<IActionResult> Get([FromRoute] string idOrSlug, [FromServices] LinkGenerator linkGenerator, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
             var movie = Guid.TryParse(idOrSlug, out var id)
@@ -40,8 +42,31 @@ namespace Movies.API.Controllers
             {
                 return NotFound();
             }
+            var response = movie.MapToResponse();
 
-            return Ok(movie.MapToResponse());
+            var movieObj = new {id = movie.Id };
+
+            // add links
+            response.Links.Add(new Link
+            {
+                Href = linkGenerator.GetPathByAction(HttpContext, nameof(Get), values: new { idOrSlug = movie.Id }),
+                Rel = "self",
+                Type = "GET"
+            });
+            response.Links.Add(new Link
+            {
+                Href = linkGenerator.GetPathByAction(HttpContext, nameof(Update), values: movieObj),
+                Rel = "self",
+                Type = "PUT"
+            });
+            response.Links.Add(new Link
+            {
+                Href = linkGenerator.GetPathByAction(HttpContext, nameof(Delete), values: movieObj),
+                Rel = "self",
+                Type = "DELETE"
+            });
+
+            return Ok(response);
         }
 
         [Authorize(AuthConstants.TrustedMemberPolicyName)]
