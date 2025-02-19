@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movies.API.Auth;
 using Movies.API.Mapping;
@@ -6,9 +7,10 @@ using Movies.Application.Models;
 using Movies.Application.Services;
 using Movies.Contracts.Requests;
 
-namespace Movies.API.Controllers.V1
+namespace Movies.API.Controllers
 {
     [ApiController]
+    [ApiVersion(1.0)]
     public class RatingsController : ControllerBase
     {
         private readonly IRatingService _ratingService;
@@ -19,7 +21,7 @@ namespace Movies.API.Controllers.V1
         }
 
         [Authorize]
-        [HttpPut(ApiEndpoints.V1.Movies.Rate)]
+        [HttpPut(ApiEndpoints.Movies.Rate)]
         public async Task<IActionResult> RateMovie([FromRoute] Guid id, [FromBody] RateMovieRequest request, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
@@ -28,7 +30,7 @@ namespace Movies.API.Controllers.V1
         }
 
         [Authorize]
-        [HttpDelete(ApiEndpoints.V1.Movies.DeleteRating)]
+        [HttpDelete(ApiEndpoints.Movies.DeleteRating)]
         public async Task<IActionResult> DeleteMovie([FromRoute] Guid id, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
@@ -37,7 +39,7 @@ namespace Movies.API.Controllers.V1
         }
 
         [Authorize]
-        [HttpGet(ApiEndpoints.V1.Ratings.GetUserRatings)]
+        [HttpGet(ApiEndpoints.Ratings.GetUserRatings)]
         public async Task<IActionResult> GetUserRatings(CancellationToken token = default)
         {
             var userId = HttpContext.GetUserId();
