@@ -34,7 +34,7 @@ namespace Movies.API.Controllers
 
         [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpGet(ApiEndpoints.Movies.Get)]
-        public async Task<IActionResult> GetV1([FromRoute] string idOrSlug, [FromServices] LinkGenerator linkGenerator, CancellationToken token)
+        public async Task<IActionResult> Get([FromRoute] string idOrSlug, [FromServices] LinkGenerator linkGenerator, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
             var movie = Guid.TryParse(idOrSlug, out var id)
