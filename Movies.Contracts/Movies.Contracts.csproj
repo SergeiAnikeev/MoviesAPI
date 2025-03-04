@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Requests\V2\" />
+    <Compile Remove="Requests\V2\**" />
+    <EmbeddedResource Remove="Requests\V2\**" />
+    <None Remove="Requests\V2\**" />
   </ItemGroup>
 
 </Project>
