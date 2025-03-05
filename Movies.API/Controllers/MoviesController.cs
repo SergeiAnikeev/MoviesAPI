@@ -25,6 +25,7 @@ namespace Movies.API.Controllers
         }
 
         [Authorize(AuthConstants.TrustedMemberPolicyName)]
+        //[ServiceFilter(typeof(ApiAuthKeyFilter))]
         [HttpPost(ApiEndpoints.Movies.Create)]
         [ProducesResponseType(typeof(MovieResponse),StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationFailureResponse), StatusCodes.Status400BadRequest)]
