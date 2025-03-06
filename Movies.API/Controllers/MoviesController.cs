@@ -81,7 +81,7 @@ namespace Movies.API.Controllers
             return Ok(response);
         }
 
-        [Authorize(AuthConstants.TrustedMemberPolicyName)]
+        //[Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpGet(ApiEndpoints.Movies.GetAll)]
         [OutputCache(PolicyName = "MovieCache")]
         //[ResponseCache(Duration = 30, VaryByQueryKeys = new[] { "title", "year", "sortBy", "page", "pageSize" }, VaryByHeader = "Accept, Accept-Encoding", Location = ResponseCacheLocation.Any)]
