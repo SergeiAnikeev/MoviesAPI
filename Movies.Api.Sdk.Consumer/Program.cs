@@ -20,6 +20,14 @@ services
 var provider = services.BuildServiceProvider();
 var moviesApi = provider.GetRequiredService<IMoviesApi>();
 
+var newMovie = await moviesApi.CreateMovieAsync(new CreateMovieRequest 
+{
+    Title = "Spider Man 2",
+    YearOfRelease = 2000,
+    Genres = new[] {"Comedy", "Action"}
+});
+
+await moviesApi.DeleteMovieAsync(newMovie.Id);
 
 //var movie = await moviesApi.GetMovieAsync("movie-1-2023");
 var request = new GetAllMoviesRequest
@@ -31,6 +39,9 @@ var request = new GetAllMoviesRequest
     PageSize = 3
 
 };
+
+
+
 var movies = await moviesApi.GetMoviesAsync(request);
 
 var options = new JsonSerializerOptions

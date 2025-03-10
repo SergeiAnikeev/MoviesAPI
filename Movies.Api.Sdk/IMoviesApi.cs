@@ -13,5 +13,26 @@ namespace Movies.Api.Sdk
 
         [Get(ApiEndpoints.Movies.GetAll)]
         Task<MoviesResponse> GetMoviesAsync(GetAllMoviesRequest getAllMoviesRequest);
+
+        [Post(ApiEndpoints.Movies.Create)]
+        Task<MovieResponse> CreateMovieAsync(CreateMovieRequest createMovieRequest);
+
+        [Put(ApiEndpoints.Movies.Update)]
+        Task<MovieResponse> UpdateMovieAsync(Guid id, UpdateMovieRequest updateMovieRequest);
+
+        [Delete(ApiEndpoints.Movies.Delete)]
+        Task DeleteMovieAsync(Guid id);
+
+        [Put(ApiEndpoints.Movies.Rate)]
+        Task RateMovieAsync(Guid id, RateMovieRequest rateMovieRequest);
+
+        [Delete(ApiEndpoints.Movies.Delete)]
+        Task DeleteRatingAsync(Guid id);
+
+        [Get(ApiEndpoints.Ratings.GetUserRatings)]
+        Task<IEnumerable<MovieRatingResponse>> GetUserRatingAsync();
+
+
+
     }
 }
