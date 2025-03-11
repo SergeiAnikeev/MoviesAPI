@@ -71,7 +71,7 @@ builder.Services.AddOutputCache(x => {
     });
 });
 
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
 builder.Services.AddHealthChecks()
     .AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.Name);
 
@@ -104,7 +104,7 @@ app.UseAuthorization();
 //app.UseResponseCaching();
 app.UseOutputCache();
 app.UseMiddleware<ValidationMappingMiddleware>();
-app.MapControllers();
+//app.MapControllers();
 
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
 await dbInitializer.InitializeAsync();
