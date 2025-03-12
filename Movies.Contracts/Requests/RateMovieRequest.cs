@@ -2,7 +2,7 @@
 {
     public class RateMovieRequest
     {
-        public required int Rating { get; init; }
+        public int? Rating { get; init; }
 
     }
 }
