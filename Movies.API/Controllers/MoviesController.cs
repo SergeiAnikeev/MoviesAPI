@@ -97,8 +97,8 @@ namespace Movies.API.Controllers
             {
                 return NotFound();
             }
-
-            return Ok(movies.MapToResponse(request.Page,request.PageSize, movieCount));
+            return Ok();
+            //return Ok(movies.MapToResponse(request.Page,request.PageSize, movieCount));
         }
 
         [Authorize(AuthConstants.TrustedMemberPolicyName)]

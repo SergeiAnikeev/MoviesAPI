@@ -6,8 +6,8 @@
         {
             app.MapCreateMovie();
             app.MapGetMovie();
+            app.MapGetAllMovies();
             /*
-            app.MaoGetAllMovies();
             app.MapUpdateMovie();
             app.MapDeleteMovie();
             */
