@@ -1,0 +1,29 @@
+﻿using Microsoft.AspNetCore.OutputCaching;
+using Movies.API.Mapping;
+using Movies.Application.Services;
+using Movies.Contracts.Requests;
+
+namespace Movies.API.Endpoints.Movies
+{
+    public static class CreateMovieEndpoint
+    {
+        public const string Name = "CreateMovie";
+
+        public static IEndpointRouteBuilder MapCreateMovie(this IEndpointRouteBuilder app)
+        {
+            app.MapPost(ApiEndpoints.Movies.Create, async
+                (CreateMovieRequest request, IOutputCacheStore outputCacheStore, IMovieService movieService, CancellationToken token) =>
+            {
+                var movie = request.MapToMovie();
+                var result = await movieService.CreateAsync(movie, token);
+                await outputCacheStore.EvictByTagAsync("movies", token);
+                var response = movie.MapToResponse();
+                return TypedResults.CreatedAtRoute(response,GetMovieEndpoint.Name, new { idOrSlug = movie.Id });
+                
+            })
+                .WithName(Name);
+
+            return app;
+        }
+    }
+}

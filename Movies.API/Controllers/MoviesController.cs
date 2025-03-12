@@ -34,7 +34,8 @@ namespace Movies.API.Controllers
             var movie = request.MapToMovie();
             var result = await _movieService.CreateAsync(movie, token);
             await _outputCacheStore.EvictByTagAsync("movies", token);
-            return CreatedAtAction(nameof(Get), new { idOrSlug = movie.Id}, movie);
+            var response = movie.MapToResponse();
+            return CreatedAtAction(nameof(Get), new { idOrSlug = movie.Id}, response);
             // return Created($"/{ApiEndpoints.Movies.Create}/{movie.Id}",movie); // should be updated to a new movie response
         }
 

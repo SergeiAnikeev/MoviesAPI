@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Routing;
-using Movies.API.Auth;
+﻿using Movies.API.Auth;
 using Movies.API.Mapping;
 using Movies.Application.Services;
 
@@ -25,7 +24,8 @@ namespace Movies.API.Endpoints.Movies
                 var response = movie.MapToResponse();
 
                 return TypedResults.Ok(response);
-            });
+            })
+                .WithName(Name);
 
             return app;
         }
