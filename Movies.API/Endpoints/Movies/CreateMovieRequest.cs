@@ -3,6 +3,7 @@ using Movies.API.Auth;
 using Movies.API.Mapping;
 using Movies.Application.Services;
 using Movies.Contracts.Requests;
+using Movies.Contracts.Responses;
 
 namespace Movies.API.Endpoints.Movies
 {
@@ -23,6 +24,8 @@ namespace Movies.API.Endpoints.Movies
                 
             })
                 .WithName(Name)
+                .Produces<MovieResponse>(StatusCodes.Status201Created)
+                .Produces<ValidationFailureResponse>(StatusCodes.Status400BadRequest)
                 .RequireAuthorization(AuthConstants.TrustedMemberPolicyName);
 
             return app;

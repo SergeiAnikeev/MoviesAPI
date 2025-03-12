@@ -3,6 +3,7 @@ using Movies.API.Auth;
 using Movies.API.Mapping;
 using Movies.Application.Services;
 using Movies.Contracts.Requests;
+using Movies.Contracts.Responses;
 
 namespace Movies.API.Endpoints.Movies
 {
@@ -25,6 +26,8 @@ namespace Movies.API.Endpoints.Movies
                 return TypedResults.Ok();
             })
                 .WithName(Name)
+                .Produces(StatusCodes.Status200OK)
+                .Produces(StatusCodes.Status404NotFound)
                 .RequireAuthorization(AuthConstants.AdminUserPolicyName);
 
             return app;
