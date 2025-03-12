@@ -13,14 +13,15 @@ namespace Movies.API.Endpoints.Ratings
             app.MapDelete(ApiEndpoints.Movies.DeleteRating, async
                 (Guid id,
                 HttpContext context,
-                IRatingService ratingService, 
+                IRatingService ratingService,
                 CancellationToken token) =>
             {
                 var userId = context.GetUserId();
                 var result = await ratingService.DeleteRatingAsync(id, userId.Value, token);
                 return result ? TypedResults.Ok() : Results.NotFound();
             })
-                .WithName(Name);
+                .WithName(Name)
+                .RequireAuthorization();
 
             return app;
         }

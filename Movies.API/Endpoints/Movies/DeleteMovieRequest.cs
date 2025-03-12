@@ -12,7 +12,7 @@ namespace Movies.API.Endpoints.Movies
 
         public static IEndpointRouteBuilder MapDeleteMovie(this IEndpointRouteBuilder app)
         {
-            app.MapDelete(ApiEndpoints.Movies.Update, async
+            app.MapDelete(ApiEndpoints.Movies.Delete, async
                 (Guid id, IOutputCacheStore outputCacheStore,
                 IMovieService movieService, CancellationToken token) =>
             {
@@ -24,7 +24,8 @@ namespace Movies.API.Endpoints.Movies
                 }
                 return TypedResults.Ok();
             })
-                .WithName(Name);
+                .WithName(Name)
+                .RequireAuthorization(AuthConstants.AdminUserPolicyName);
 
             return app;
         }

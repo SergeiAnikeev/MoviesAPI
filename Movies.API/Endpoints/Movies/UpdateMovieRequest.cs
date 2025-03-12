@@ -27,7 +27,8 @@ namespace Movies.API.Endpoints.Movies
                 var response = updatedMovie.MapToResponse();
                 return TypedResults.Ok(response);
             })
-                .WithName(Name);
+                .WithName(Name)
+                .RequireAuthorization(AuthConstants.TrustedMemberPolicyName);
 
             return app;
         }
