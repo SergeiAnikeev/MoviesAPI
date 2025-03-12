@@ -106,6 +106,7 @@ app.UseAuthorization();
 app.UseOutputCache();
 app.UseMiddleware<ValidationMappingMiddleware>();
 //app.MapControllers();
+app.MapApiEndpoints();
 
 var dbInitializer = app.Services.GetRequiredService<DbInitializer>();
 await dbInitializer.InitializeAsync();
