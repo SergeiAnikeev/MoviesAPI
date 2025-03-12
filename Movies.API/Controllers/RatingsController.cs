@@ -7,7 +7,7 @@ using Movies.Application.Models;
 using Movies.Application.Services;
 using Movies.Contracts.Requests;
 using Movies.Contracts.Responses;
-
+/*
 namespace Movies.API.Controllers
 {
     [ApiController]
@@ -55,3 +55,4 @@ namespace Movies.API.Controllers
         }
     }
 }
+*/
